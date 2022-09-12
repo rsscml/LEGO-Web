@@ -5,6 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from django.shortcuts import render
+
+from databricks_cli.sdk.api_client import ApiClient
+from databricks_cli.dbfs.api import DbfsApi
+from databricks_cli.dbfs.dbfs_path import DbfsPath
+import pandas as pd
+
+from core.settings import DATABRICKS_HOST,DATABRICKS_TOKEN
+
+api_client = ApiClient(host = DATABRICKS_HOST, token = DATABRICKS_TOKEN)
 
 
 @login_required(login_url="/login/")
@@ -39,3 +49,26 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+
+import json
+def tables_data(request):
+    # dbfs_source_file_path = 'dbfs:/mnt/adls/MPF/Alternate_Currency_Keys_Aug.csv'
+    local_file_download_path = 'apps/home/data/data1.parquet'
+    # dbfs_api  = DbfsApi(api_client)
+    # dbfs_path = DbfsPath(dbfs_source_file_path)
+    # dbfs_api.get_file(dbfs_path, local_file_download_path, overwrite = True)
+    data = pd.read_parquet(local_file_download_path, engine='pyarrow').head(100)
+    #data.rename(columns={'GLI Code': 'GLICode', 'UOM Macro': 'UOMMacro', 'EU001 OC':'EU001OC', 'DS OC':'DSOC'}, inplace=True)
+    # data.head(10)
+    # data = pd.read_csv(local_file_download_path).head(50)
+    #data.rename(columns={'GLI Code': 'GLICode', 'UOM Macro': 'UOMMacro', 'EU001 OC':'EU001OC', 'DS OC':'DSOC'}, inplace=True)
+    # data = data.to_html()
+    # parsing the DataFrame in json format.
+    # print(data.head(10))
+    json_records = data.reset_index().to_json(orient ='records')
+    data = []
+    data = json.loads(json_records)
+    context = {'data': data}
+    return render(request, "home/tables-data.html", context)
+
+
