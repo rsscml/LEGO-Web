@@ -27,7 +27,7 @@ ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')
 
 # load production server from .env
 ALLOWED_HOSTS        = ['*']
-CSRF_TRUSTED_ORIGINS = ['*']
+#CSRF_TRUSTED_ORIGINS = ['*']
 
 # Application definition
 
@@ -157,13 +157,13 @@ DATABRICKS_TOKEN = os.getenv('DATABRICKS_TOKEN')
 #     'common_method.celery_tasks.send_mail_shared': {'queue': 'mail_queue'}
 # }
 
-EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
-FROM_EMAIL = os.getenv('FROM_EMAIL')
+# EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+# EMAIL_HOST = os.getenv('EMAIL_HOST')
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT = os.getenv('EMAIL_PORT')
+# EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+# FROM_EMAIL = os.getenv('FROM_EMAIL')
 
 #############################################################
 #############################################################
