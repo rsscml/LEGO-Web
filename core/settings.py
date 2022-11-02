@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.home',  # Enable the inner home (home)
-    # "corsheaders"
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
@@ -54,35 +54,35 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "corsheaders.middleware.CorsPostCsrfMiddleware",
 ]
-# CORS_ALLOWED_ORIGINS = [
-#     'https://feulegoapp.azurewebsites.net', 
-#     'http://feulegoapp.azurewebsites.net',
-#     'https://www.feulegoapp.azurewebsites.net',
-#     'http://www.feulegoapp.azurewebsites.net',
-#     "http://localhost:8000",
-#     "http://127.0.0.1:8000",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    'https://feulegoapp.azurewebsites.net', 
+    'http://feulegoapp.azurewebsites.net',
+    'https://www.feulegoapp.azurewebsites.net',
+    'http://www.feulegoapp.azurewebsites.net',
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
 
-# CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOW_METHODS = [
-#     "DELETE",
-#     "GET",
-#     "OPTIONS",
-#     "PATCH",
-#     "POST",
-#     "PUT",
-# ]
-# CORS_ALLOW_HEADERS = [
-#     "accept",
-#     "accept-encoding",
-#     "authorization",
-#     "content-type",
-#     "dnt",
-#     "origin",
-#     "user-agent",
-#     "x-csrftoken",
-#     "x-requested-with",
-# ]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
 ROOT_URLCONF = 'core.urls'
 LOGIN_REDIRECT_URL = "home"  # Route defined in home/urls.py
 LOGOUT_REDIRECT_URL = "home"  # Route defined in home/urls.py
@@ -188,14 +188,22 @@ STATICFILES_DIRS = (
 # CELERY_ROUTES = {
 #     'common_method.celery_tasks.send_mail_shared': {'queue': 'mail_queue'}
 # }
+# CELERY_BROKER_URL = 'amqp://admin@localhost:5672//'
+# CELERY_RESULT_BACKEND = 'amqp://localhost:5672'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
 
-# EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
-# EMAIL_HOST = os.getenv('EMAIL_HOST')
-# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-# EMAIL_PORT = os.getenv('EMAIL_PORT')
-# EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
-# FROM_EMAIL = os.getenv('FROM_EMAIL')
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+
+
 
 #############################################################
 #############################################################
