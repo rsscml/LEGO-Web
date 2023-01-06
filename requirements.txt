@@ -12,9 +12,12 @@ azure-mgmt-datalake-store
 azure-identity
 pandas
 # pyarrow
+pyspark
 
 dask[dataframe]
 fmldk
 celery==4.4.0
 ipython
-django-cors-headers
+bokeh==2.4.3
+gast==0.4.0
+# django-cors-headers

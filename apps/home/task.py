@@ -6,33 +6,49 @@ import eda, ctfrv2
 from pathlib import Path
 import pandas as pd
 import uuid
+env = 'LOCAL'
 
 @shared_task
-def async_task(amz_columns_dict,file_name,username):
+def async_task(amz_columns_dict,file_name,username,data2):
     sleep(10)
-    df = pd.read_csv("/home/satyajit/Desktop/opensource/data/us_amz.csv", low_memory=False)
-    df = df.head(2500)
-    print("it's here----->")
+    data = pd.DataFrame(data2)
     eda_object = eda.eda(col_dict=amz_columns_dict)
-    # save_path = download_path
     import os
     from core.settings import BASE_DIR
-    download_path = os.path.join(BASE_DIR, "projects/eda/%s/" % username)
-    if not os.path.exists(download_path):
+    if env == 'LOCAL':
+        download_path = os.path.join(BASE_DIR, "projects/eda/%s/" % username)
+    else:
+        pass
+        # download_path = ('/Unilever/satyajit/projects/eda/%s/' % username)
+        # with adls_client.open('/Unilever/satyajit/projects/eda/%s/' % username, 'wb') as o:
+        #     o.write(str.encode(output_str))
+        #     o.close()
+    download_path = str(download_path)
+    if env == 'LOCAL' and not os.path.exists(download_path):
         try:
             os.makedirs(download_path)
             print('folder created----->')
         except FileExistsError:
         # directory already exists
             pass
-    download_path = str(download_path)
-    print('download_path------------->', download_path)
+    elif env == 'REMOTE' and not os.path.exists(download_path):
+        print('remote')
+        pass
     uuid_no=uuid.uuid4().hex[:5]
     name_of_file =  file_name + '_' + str(uuid_no)         
-    save_path = download_path
-    # file_path = Path(save_path, name_of_file+".html")  
-    file_path = os.path.join(save_path, name_of_file+".html")   
-    eda_object.create_report(data=df, filename=file_path)
+    save_path = download_path 
+    if env == 'LOCAL':
+        file_path = os.path.join(save_path, name_of_file+".html")
+    else:
+        # file_path = os.path.join(save_path, name_of_file+".html")
+        # output_str = data.to_csv(mode = 'w', index=False)
+        # with adls_client.open('/Unilever/satyajit/', 'wb') as o:
+        #     o.write(str.encode(output_str))
+        #     o.close()
+        file_path = None
+        print('adls path create')
+        pass
+    eda_object.create_report(data=data, filename=file_path)
     return 'eda task complete'
 
 
@@ -40,10 +56,10 @@ def async_task(amz_columns_dict,file_name,username):
 def async__training_task(amz_columns_dict,promo_num_cols,metric,learning_rate,num_layers,
             num_heads,kernel_sizes,d_model,forecast_horizon,loss_type,max_inp_len,num_quantiles,decoder_lags,
             dropout_rate,max_epochs,min_epochs,train_steps_per_epoch,test_steps_per_epoch,patience,
-            window_len,fh,batch,min_nz,PARALLEL_DATA_JOBS,PARALLEL_DATA_JOBS_BATCHSIZE,username):
+            window_len,fh,batch,min_nz,PARALLEL_DATA_JOBS,PARALLEL_DATA_JOBS_BATCHSIZE,username, data2):
     sleep(10)
-    df = pd.read_csv("/home/satyajit/Desktop/opensource/data/us_amz.csv", low_memory=False)
-    df = df.head(1500)
+    data = pd.DataFrame(data2)
+    df = data.head(1500)
     print("it's here training----->")
     train_till = 202152
     test_till = 202213
